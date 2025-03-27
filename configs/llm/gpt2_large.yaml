@@ -1,0 +1,3 @@
+_target_: src.llm.modeling_gpt2.GPT2ForCausalLMFlashAttn.from_config
+pretrained_model_name_or_path: models/gpt2-large
+vocab_size: 50323

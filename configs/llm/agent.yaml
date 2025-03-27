@@ -1,0 +1,42 @@
+_target_: src.llm.models.ContinuousLVLMSimple
+
+pre_input_resampler: 
+  _target_: src.llm.resampler.Resampler
+  dim: 1024
+  depth: 4
+  dim_head: 64
+  heads: 12
+  num_queries: 16
+  embedding_dim: 1280
+  output_dim: 1024
+
+input_resampler:
+  _target_: torch.nn.Sequential
+  _args_:
+    - _target_: torch.nn.Linear
+      in_features: 1024
+      out_features: 1280
+    - _target_: torch.nn.GELU
+    - _target_: torch.nn.Linear
+      in_features: 1280
+      out_features: 1280
+
+output_resampler:
+  _target_: torch.nn.Sequential
+  _args_:
+    - _target_: torch.nn.Linear
+      in_features: 1280
+      out_features: 1280
+    - _target_: torch.nn.GELU
+    - _target_: torch.nn.Linear
+      in_features: 1280
+      out_features: 32784
+
+num_img_tokens: 16
+use_cosine_loss: false
+rec_loss_weight: 0.0
+llm_loss_weight: 0.0
+llm_rec_loss_weight: 1.0
+num_gmm_kernel: 16
+gmm_with_mse_and_l1: false
+loss_func: gmm
